@@ -72,7 +72,7 @@ CREATE TABLE Cata (
     Boca TEXT NOT NULL,
     Nariz TEXT NOT NULL,
     Maridaje TEXT NOT NULL,
-    IdVino INT NOT NULL UNIQUE, 
+    IdVino INT NOT NULL UNIQUE,
     FOREIGN KEY(IdVino) REFERENCES Vino(IdVino) ON DELETE CASCADE,
     PRIMARY KEY (IdCata)
 );
@@ -130,25 +130,14 @@ FROM VinoUvaExcel AS V;
 
 DELIMITER //
 
-CREATE PROCEDURE sp_InsertVino(
-    IN idvi INT,
-    IN idcate INT,
-    IN vi text , 
-    IN cria text, 
-    IN añeja text, 
-    IN temp text,
-    IN vis TEXT ,
-    IN Bo TEXT ,
-    IN Nar TEXT
-
+DROP PROCEDURE IF EXISTS sp_buscarVinot;
+CREATE PROCEDURE sp_buscarVinot(
+    IN VinoIn TEXT
 )
 BEGIN
-   
-    INSERT INTO Vino(IdViñedo,IdCategoria ,Vino, Crianza, Añejamiento, Temperatura)
-    VALUES(idvi,idcate, vi, cria, añeja, temp);
-    INSERT INTO Cata(Vista,Boca ,Nariz,IdVino)
-    VALUES(vis,Bo, Nar,LAST_INSERT_ID() );
-    
+   SELECT V.IdVino AS ID, V.Vino, Vi.Nombre AS Vinedo FROM Vino AS V INNER JOIN Viñedo AS Vi ON V.IdViñedo = Vi.IdViñedo WHERE V.Vino LIKE CONCAT('%',VinoIn,'%');
 END //
+
+SELECT * FROM Vino;
 
 DELIMITER ;
