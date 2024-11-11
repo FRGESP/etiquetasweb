@@ -1,9 +1,8 @@
 
-
 function NewVino() {
   return (
     <div>
-      Hola pa
+      hola
     </div>
   )
 }

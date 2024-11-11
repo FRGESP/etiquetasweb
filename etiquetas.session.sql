@@ -130,25 +130,11 @@ FROM VinoUvaExcel AS V;
 
 DELIMITER //
 
-CREATE PROCEDURE sp_InsertVino(
-    IN idvi INT,
-    IN idcate INT,
-    IN vi text , 
-    IN cria text, 
-    IN añeja text, 
-    IN temp text,
-    IN vis TEXT ,
-    IN Bo TEXT ,
-    IN Nar TEXT
-
+CREATE PROCEDURE sp_buscarVinot(
+    IN vi TEXT
 )
 BEGIN
-   
-    INSERT INTO Vino(IdViñedo,IdCategoria ,Vino, Crianza, Añejamiento, Temperatura)
-    VALUES(idvi,idcate, vi, cria, añeja, temp);
-    INSERT INTO Cata(Vista,Boca ,Nariz,IdVino)
-    VALUES(vis,Bo, Nar,LAST_INSERT_ID() );
-    
+   SELECT IdVino, Vino FROM Vino WHERE Vino LIKE CONCAT('%',vi,'%');
 END //
 
 DELIMITER ;
