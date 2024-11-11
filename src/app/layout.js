@@ -12,7 +12,6 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body className={inter.className}>
-      <h1>NavBar</h1>
       <div className="h-[calc(100vh-5rem)]">
       {children}
       </div>
