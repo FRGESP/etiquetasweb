@@ -100,7 +100,7 @@ SELECT R.Calle, R.IdMunicipio
 FROM RegionExcel AS R;
 
 INSERT INTO Viñedo (Nombre, IdDireccion, Descripcion, Liga)
-SELECT V.Nombre, V.IDRegión, V.Información, V.Liga
+SELECT V.Nombre, V.IdRegión, V.Información, V.Liga
 FROM ViñedoExcel AS V;
 
 INSERT INTO Categoria (Categoria)
@@ -117,7 +117,7 @@ INSERT INTO Cata (Vista, Boca, Nariz, Maridaje,IdVino)
 SELECT V.Vista, V.Boca, V.Nariz, V.Maridaje, Vi.IdVino
 FROM VinoExcel AS V
 INNER JOIN Vino Vi ON V.IDVino = Vi.IdVino
-WHERE V.IDVino IS NOT NULL;
+WHERE V.IdVino IS NOT NULL;
 
 INSERT INTO Uva (Uva, Color)
 SELECT U.Uva, U.Color
@@ -140,7 +140,8 @@ END //
 
 SELECT * FROM Vino;
 
-CREATE VIEW VinosInfo
+CREATE VIEW VinosInfo AS
+
 select V.IdVino,V.Vino,Vi.Nombre AS Viñedo,C.Categoria ,concat(M.Municipio,', ',e.Estado,', ',p.Pais,', ',D.Direccion) AS Region,V.Crianza ,V.Añejamiento ,V.Temperatura ,Ca.Vista ,Ca.Boca ,Ca.Nariz ,Ca.Maridaje 
 from Vino V 
 INNER JOIN Viñedo Vi on V.IdViñedo = Vi.IdViñedo 
@@ -150,3 +151,10 @@ INNER join Municipio M on D.IdMunicipio = M.IdMunicipio
 INNER join Estado e on M.IdEstado = e.IdEstado 
 INNER join Pais p on e.IdPais = p.IdPais 
 INNER join Cata Ca on V.IdVino = Ca.IdVino
+
+
+CREATE VIEW UvasVinosVista AS
+select Vv.IdVino, U.Uva,U.Color 
+from Vino V 
+INNER JOIN VinoUva V on V.IdVino = Vv.IdVino 
+INNER JOIN Uva U on Vv.IdUva = U.IdUva
