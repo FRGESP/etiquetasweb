@@ -1,12 +1,38 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Search  } from 'lucide-react';
 import axios from "axios";
 import ButtonSelect from "@/components/buttonSelect";
-import { Scanner } from "@yudiel/react-qr-scanner";
-
+import { Html5QrcodeScanner } from "html5-qrcode";
 
 function FormVino() {
+
+  
+
+  const [scanResult, setScanResult] = useState(null);
+
+  useEffect(() => {
+    const scanner = new Html5QrcodeScanner('reader',{
+      qrbox:{
+        width: 250,
+        height: 250
+      },
+      fps: 5,
+    })
+
+    scanner.render(success, error);
+
+    function success(result){
+      scanner.clear();
+      setScanResult(result);
+    }
+  
+    function error(err){
+      console.log(err);
+    }
+  }, []);
+
+ 
 
     //Para guardar los vinos
     const [vinos, setVinos] = useState([]);
@@ -38,10 +64,6 @@ function FormVino() {
     setFirstLoad(false);
   };
 
-  const Escanear = () => {
-    console.log("Escanear");
-    return <Scanner onScan={(result) => console.log(result)} />;
-};
 
   return (
     <div className="flex flex-col gap-2 w-1/2 border border-black p-10 rounded-lg shadow-2xl">
@@ -92,7 +114,11 @@ function FormVino() {
           </div>
         )}
       </div>
-      <button className="w-auto border border-black bg-green-600 hover:bg-green-700 h-10 rounded-md text-white" onClick={Escanear}>Escanear QR</button>
+      
+      {
+        scanResult ? <div>{scanResult}</div> : <div id="reader"></div>
+      }
+      <button className="w-auto border border-black bg-green-600 hover:bg-green-700 h-10 rounded-md text-white" >Escanear QR</button>
 
     </div>
   );
