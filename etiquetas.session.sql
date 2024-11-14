@@ -138,6 +138,9 @@ BEGIN
    SELECT V.IdVino AS ID, V.Vino, Vi.Nombre AS Vinedo FROM Vino AS V INNER JOIN Viñedo AS Vi ON V.IdViñedo = Vi.IdViñedo WHERE V.Vino LIKE CONCAT('%',VinoIn,'%');
 END //
 
+DELIMITER;
+
+
 SELECT * FROM Vino;
 
 CREATE VIEW VinosInfo AS
@@ -158,3 +161,15 @@ select Vv.IdVino, U.Uva,U.Color
 from Vino V 
 INNER JOIN VinoUva V on V.IdVino = Vv.IdVino 
 INNER JOIN Uva U on Vv.IdUva = U.IdUva
+
+
+
+CREATE PROCEDURE sp_VinosTabla(
+    IN id int
+)
+BEGIN
+SELECT Vino,Viñedo,Categoria,Region,Crianza,Añejamiento,Temperatura,Vista,Boca,Nariz,Maridaje FROM VinosInfo WHERE IdVino=id;
+SELECT Uva,Color FROM UvasVinosVista WHERE IdVino=id;
+
+END 
+
