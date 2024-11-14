@@ -140,4 +140,13 @@ END //
 
 SELECT * FROM Vino;
 
-DELIMITER ;
+CREATE VIEW VinosInfo
+select V.IdVino,V.Vino,Vi.Nombre AS Viñedo,C.Categoria ,concat(M.Municipio,', ',e.Estado,', ',p.Pais,', ',D.Direccion) AS Region,V.Crianza ,V.Añejamiento ,V.Temperatura ,Ca.Vista ,Ca.Boca ,Ca.Nariz ,Ca.Maridaje 
+from Vino V 
+INNER JOIN Viñedo Vi on V.IdViñedo = Vi.IdViñedo 
+INNER JOIN Categoria C on V.IdCategoria = C.IdCategoria 
+INNER join Direccion D on Vi.IdDireccion = D.IdDireccion 
+INNER join Municipio M on D.IdMunicipio = M.IdMunicipio 
+INNER join Estado e on M.IdEstado = e.IdEstado 
+INNER join Pais p on e.IdPais = p.IdPais 
+INNER join Cata Ca on V.IdVino = Ca.IdVino
