@@ -1,5 +1,5 @@
 
-CREATE DATABASE Etiquetas
+CREATE DATABASE Etiquetas;
 
 USE Etiquetas;
 
@@ -100,8 +100,8 @@ SELECT R.Calle, R.IdMunicipio
 FROM RegionExcel AS R;
 
 INSERT INTO Viñedo (Nombre, IdDireccion, Descripcion, Liga)
-SELECT V.Nombre, V.IdRegión, V.Información, V.Liga
-FROM ViñedoExcel AS V;
+SELECT V.Nombre, V.IDRegión, V.Información, V.URL
+FROM VinedoExcel AS V;
 
 INSERT INTO Categoria (Categoria)
 SELECT C.Categoria
@@ -138,28 +138,24 @@ BEGIN
    SELECT V.IdVino AS ID, V.Vino, Vi.Nombre AS Vinedo FROM Vino AS V INNER JOIN Viñedo AS Vi ON V.IdViñedo = Vi.IdViñedo WHERE V.Vino LIKE CONCAT('%',VinoIn,'%');
 END //
 
-DELIMITER;
-
-
 SELECT * FROM Vino;
 
 CREATE VIEW VinosInfo AS
-
-select V.IdVino,V.Vino,Vi.Nombre AS Viñedo,C.Categoria ,concat(M.Municipio,', ',e.Estado,', ',p.Pais,', ',D.Direccion) AS Region,V.Crianza ,V.Añejamiento ,V.Temperatura ,Ca.Vista ,Ca.Boca ,Ca.Nariz ,Ca.Maridaje 
-from Vino V 
-INNER JOIN Viñedo Vi on V.IdViñedo = Vi.IdViñedo 
-INNER JOIN Categoria C on V.IdCategoria = C.IdCategoria 
-INNER join Direccion D on Vi.IdDireccion = D.IdDireccion 
-INNER join Municipio M on D.IdMunicipio = M.IdMunicipio 
-INNER join Estado e on M.IdEstado = e.IdEstado 
-INNER join Pais p on e.IdPais = p.IdPais 
+select V.IdVino,V.Vino,Vi.Nombre AS Viñedo,C.Categoria ,concat(M.Municipio,', ',e.Estado,', ',p.Pais,', ',D.Direccion) AS Region,V.Crianza ,V.Añejamiento ,V.Temperatura ,Ca.Vista ,Ca.Boca ,Ca.Nariz ,Ca.Maridaje
+from Vino V
+INNER JOIN Viñedo Vi on V.IdViñedo = Vi.IdViñedo
+INNER JOIN Categoria C on V.IdCategoria = C.IdCategoria
+INNER join Direccion D on Vi.IdDireccion = D.IdDireccion
+INNER join Municipio M on D.IdMunicipio = M.IdMunicipio
+INNER join Estado e on M.IdEstado = e.IdEstado
+INNER join Pais p on e.IdPais = p.IdPais
 INNER join Cata Ca on V.IdVino = Ca.IdVino
 
 
 CREATE VIEW UvasVinosVista AS
 select Vv.IdVino, U.Uva,U.Color 
 from Vino V 
-INNER JOIN VinoUva V on V.IdVino = Vv.IdVino 
+INNER JOIN VinoUva Vv on V.IdVino = Vv.IdVino 
 INNER JOIN Uva U on Vv.IdUva = U.IdUva
 
 

@@ -3,34 +3,14 @@ import React, { useEffect, useState } from "react";
 import { Search  } from 'lucide-react';
 import axios from "axios";
 import ButtonSelect from "@/components/buttonSelect";
-import { Html5QrcodeScanner } from "html5-qrcode";
+import Link from "next/link";
+
 
 function FormVino() {
 
   
 
-  const [scanResult, setScanResult] = useState(null);
-
-  useEffect(() => {
-    const scanner = new Html5QrcodeScanner('reader',{
-      qrbox:{
-        width: 250,
-        height: 250
-      },
-      fps: 5,
-    })
-
-    scanner.render(success, error);
-
-    function success(result){
-      scanner.clear();
-      setScanResult(result);
-    }
   
-    function error(err){
-      console.log(err);
-    }
-  }, []);
 
  
 
@@ -114,12 +94,7 @@ function FormVino() {
           </div>
         )}
       </div>
-      
-      {
-        scanResult ? <div>{scanResult}</div> : <div id="reader"></div>
-      }
-      <button className="w-auto border border-black bg-green-600 hover:bg-green-700 h-10 rounded-md text-white" >Escanear QR</button>
-
+      <Link href={'/vino'} className="w-auto border border-black bg-green-600 hover:bg-green-700 h-10 rounded-md text-white justify-center flex items-center">Escanear un QR</Link>
     </div>
   );
 }
