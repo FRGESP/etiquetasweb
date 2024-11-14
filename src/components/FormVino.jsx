@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import { Search  } from 'lucide-react';
 import axios from "axios";
 import ButtonSelect from "@/components/buttonSelect";
+import { Scanner } from "@yudiel/react-qr-scanner";
 
 
 function FormVino() {
@@ -36,6 +37,11 @@ function FormVino() {
     setResults(true);
     setFirstLoad(false);
   };
+
+  const Escanear = () => {
+    console.log("Escanear");
+    return <Scanner onScan={(result) => console.log(result)} />;
+};
 
   return (
     <div className="flex flex-col gap-2 w-1/2 border border-black p-10 rounded-lg shadow-2xl">
@@ -86,6 +92,7 @@ function FormVino() {
           </div>
         )}
       </div>
+      <button className="w-auto border border-black bg-green-600 hover:bg-green-700 h-10 rounded-md text-white" onClick={Escanear}>Escanear QR</button>
 
     </div>
   );
