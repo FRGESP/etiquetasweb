@@ -25,6 +25,9 @@ function VinoDashboard() {
 
   const [scanResult, setScanResult] = useState(null);
 
+  //Cambia el estado de empezar a escanear
+  const [isScanning, setIsScanning] = useState(false); 
+
   //Obtiene la informacion del vino escaneado
   const getData = async () => {
     const response = await axios.get(`/api/Vinos/${scanResult}`);
@@ -37,8 +40,11 @@ function VinoDashboard() {
   };
 
   useEffect(() => {
-    setScan();
-  }, []);
+    if(isScanning)
+    {
+      setScan();
+    }
+  }, [isScanning]);
 
   const setScan = () => {
     
@@ -71,7 +77,14 @@ function VinoDashboard() {
 
   return (
     <div className="flex flex-col gap-2 w-[500px] border border-black p-10 rounded-lg shadow-2xl justify-center">
-      <div id="reader" className={`${scanResult ? 'hidden' : ''}`}></div>
+      
+      {!isScanning && (
+        <button className="border border-black w-full bg-green-600 hover:bg-green-800 text-white rounded-md py-2 my-4" onClick={() => setIsScanning(true)} >Start Scan</button>
+      )}
+
+      {isScanning && (
+        <div>
+          <div id="reader" className={`${scanResult ? 'hidden' : ''}`}></div>
       {scanResult && (
         <div className="h-[700px] border-2 border-black rounded-lg p-4 overflow-y-auto">
           <div className=" flex h-32 items-center justify-center">
@@ -195,10 +208,12 @@ function VinoDashboard() {
               </div>
             </div>
           </div>
-          <button className="border border-black w-full bg-green-600 hover:bg-green-800 text-white rounded-md py-2 my-4" onClick={() => {setScanResult(null); setScan()}}>
+          <button className="border border-black w-full bg-green-600 hover:bg-green-800 text-white rounded-md py-2 my-4" onClick={() => {setScanResult(null); setIsScanning(false)}}>
             Escanear otro QR
           </button>
           <Link className="border border-black w-full bg-blue-600 hover:bg-blue-800 text-white rounded-md py-2 flex justify-center" href={'/'}>Descargar otro QR</Link>
+        </div>
+      )}
         </div>
       )}
     </div>

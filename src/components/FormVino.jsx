@@ -30,6 +30,7 @@ function FormVino() {
       ...inputValues,
       [e.target.name]: e.target.value,
     });
+    handleSubmit();
   };
 
   const handleSubmit = async (e) => {
